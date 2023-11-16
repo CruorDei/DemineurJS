@@ -1,5 +1,6 @@
 @import url(./root.css);
 @import url(./form.css);
+@import url(./demineur.css);
 @font-face {
   font-family: "Roboto";
   src: url("/fonts/Roboto/Roboto-Regular.ttf") format("truetype"),
@@ -64,31 +65,3 @@ nav.nav{
 }
 
 /*****************************************************************************/
-.grid {
-    display: grid;
-  }
-  
-  .cell {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  
-  .mine {
-
-    color: #fff;
-  }
-  
-  .revealed {
-    background-color: #ddd;
-    pointer-events: none;
-  }
-  
-  .flag {
-    background-color: #0c0; /* couleur du drapeau */
-}

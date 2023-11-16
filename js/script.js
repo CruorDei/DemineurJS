@@ -1,7 +1,18 @@
 import { Demineur } from './Demineur.js';
-const demineurInstance = new Demineur(rows, columns, bombs);
 
-console.log(`${new Demineur(8, 8, 8).getBoardAsString()}`);
+    var url = new URL(window.location.href);
+
+    var rows = url.searchParams.get("rows");
+    var columns = url.searchParams.get("columns");
+    var bombs = url.searchParams.get("bombs");
+
+    console.log("plop Rows:", typeof rows);
+    console.log("plop Columns:", typeof columns);
+    console.log("plop Bombs:", typeof bombs);
+
+const demineurInstance = new Demineur(+rows, +columns, +bombs);
+
+console.log(demineurInstance.getBoardAsString());
 
 let generatGrid = (demineurInstance) => {
     let gridContainer = document.querySelector("#demineurGrid");
@@ -17,7 +28,9 @@ let generatGrid = (demineurInstance) => {
             
             const cellElement = document.createElement('div');
             cellElement.classList.add('cell');
-            const cellValue = demineurInstance.board[i][j];
+            cellElement.id = demineurInstance.oneFileCoordinate(i, j);
+
+            const cellValue = demineurInstance.board[i][j]; // je recupere ici les nombres pour mes cellules
             if (cellValue) {
                 cellElement.innerText = cellValue;
             }

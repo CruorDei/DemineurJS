@@ -1,8 +1,17 @@
-<?php require("partials/head.php") ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <script type="module" src="js/script.js" defer></script>
+    <script type="module" src="js/Demineur.js" defer></script>
+    <title>Demineur</title>
+</head>
 
 <body>
     <div class="container">
-    <form action="demineur.php" method="GET">
+    <form action="demineur.html" method="GET">
         <label for="rows">Nombre de lignes :</label>
         <input type="number" id="rows" name="rows" required value="10">
 

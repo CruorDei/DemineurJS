@@ -51,6 +51,17 @@ export class Demineur {
         return new Demineur(this.length.line, this.length.column, this.numberOfBomb);
     }
 
+    oneFileCoordinate(column, line){
+        return column * this.length.line + line;
+    }
+
+    twoFileCoordinate(id){
+        return [
+            Math.floor(id/this.length.line),
+            id % this.length.line
+        ]
+    }
+
     getBoardAsString(){
         return this.board.reduce((acc, current) => {
             const lineStr = current.reduce((accSecond, curentSecond) => {
@@ -60,5 +71,3 @@ export class Demineur {
         })
     }
 }
-
-
