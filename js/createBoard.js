@@ -32,8 +32,8 @@ function dissiminateBomb(board, numberOfBomb) {
 
 function createArrayBomb(lineLength, columnLength, numberOfBomb) {
     let board = Array.from({length: columnLength}, () => Array(lineLength).fill(0));
-    console.log(board);
-    console.log(dissiminateBomb(board, numberOfBomb));
+    board = dissiminateBomb(board, numberOfBomb);
+    return board;
 }
 
 createArrayBomb(5, 5, 5);
