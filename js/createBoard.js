@@ -30,10 +30,8 @@ function dissiminateBomb(board, numberOfBomb) {
     return board;
 }
 
-function createArrayBomb(lineLength, columnLength, numberOfBomb) {
+export function createArrayBomb(lineLength, columnLength, numberOfBomb) {
     let board = Array.from({length: columnLength}, () => Array(lineLength).fill(0));
     board = dissiminateBomb(board, numberOfBomb);
     return board;
 }
-
-createArrayBomb(5, 5, 5);
