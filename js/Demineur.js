@@ -1,4 +1,4 @@
-class Demineur {
+export class Demineur {
     BOMB = 9;
 
     constructor(line, column, numberOfBomb) {
@@ -42,6 +42,23 @@ class Demineur {
         board = this.dissiminateBomb(board, this.numberOfBomb);
         return board;
     }
+
+    coordinate(column, line){
+        return this.board?.[column]?.[line];
+    }
+
+    reset() {
+        return new Demineur(this.length.line, this.length.column, this.numberOfBomb);
+    }
+
+    getBoardAsString(){
+        return this.board.reduce((acc, current) => {
+            const lineStr = current.reduce((accSecond, curentSecond) => {
+                return `${accSecond},${curentSecond}`;
+            })
+            return `${acc}\n${lineStr}`
+        })
+    }
 }
 
-console.log(new Demineur(5, 5, 5));
+
