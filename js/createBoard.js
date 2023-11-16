@@ -3,11 +3,7 @@ const BOMB = 9;
 function raiseNumberAroundBomb(board, column, line) {
     for(let i = column - 1; i <= column + 1; i++) {
         for(let j = line - 1; j <= line + 1; j++) {
-            if(board?.[i]?.[j] === undefined) continue;
-
-            console.log(board?.at(i)?.at(j), i, j)
-
-            if(board[i][j] !== BOMB) {
+            if(board[i]?.[j] !== undefined && board[i][j] !== BOMB) {
                 board[i][j]++;
             }
         }
