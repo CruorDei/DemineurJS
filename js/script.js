@@ -1,4 +1,4 @@
-import { Demineur } from './Demineur.js';
+import { Demineur } from './DemineurTemp.js';
 
     var url = new URL(window.location.href);
 
@@ -30,7 +30,7 @@ let generatGrid = (demineurInstance) => {
             cellElement.classList.add('cell');
             cellElement.id = demineurInstance.oneFileCoordinate(i, j);
 
-            const cellValue = demineurInstance.board[i][j]; // je recupere ici les nombres pour mes cellules
+            const cellValue = demineurInstance.coordinate(i, j).number; // je recupere ici les nombres pour mes cellules
             if (cellValue) {
                 cellElement.innerText = cellValue;
             }
