@@ -5,6 +5,7 @@
     --bg-light-color: #F2AF5C;
     --bg-dark-color: #0D0D0D;
     --txt: white;
+    --loose : red;
 
     --primary-color-inverse: invert(var(--primary-color));
     --bg-cells-color-inverse: invert(var(--bg-cells-color));
@@ -21,4 +22,6 @@
     --c6: #7C007C;
     --c7: #3A003A;
     --c8: var(--bg-dark-color);
+
+    --flag : url(https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.redbubble.com%2Ffr%2Fi%2Fsticker%2FD%25C3%25A9mineur-Drapeau-Rouge-par-FlowDesigns%2F92526613.EJUG5&psig=AOvVaw1lTNzYhuokLuBSnp1J8c9y&ust=1700308814208000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLCptYr-yoIDFQAAAAAdAAAAABAE);
 }

@@ -1,9 +1,10 @@
 export class Case {
     BOMB = 9;
-    constructor(number, flag = false){
+    constructor(number , id, flag = false){
         this.number = number;
         this.flag = flag;
         this.revealed = false;
+        this.id = id;
     }
 
     raiseNumber(){
@@ -16,7 +17,7 @@ export class Case {
 
     reveal(){
         this.revealed = true;
-        return this.isBomb;
+        return this;
     }
 
     changeFlag(){
@@ -25,6 +26,6 @@ export class Case {
     }
 
     toString(){
-        return this.revealed ? this.number : this.flag ? "🚩" : "*";
+        return this.revealed ? this.number : this.flag ? "🚩" : "";
     }
 }

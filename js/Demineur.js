@@ -10,11 +10,17 @@ export class Demineur {
         };
         this.numberOfBomb = numberOfBomb;
         this.bombFound = 0;
+        this.caseRevealed = 0;
+        this.gameFinished = false;
         this.createBoard();
     }
 
     coordinate(column, line){
         return this.board?.[column]?.[line];
+    }
+
+    oneFileCoordinate(column, line){
+        return column * this.length.line + line;
     }
 
     raiseNumberAroundBomb(column, line) {
@@ -35,7 +41,7 @@ export class Demineur {
             let randomRow = Math.floor(Math.random() * this.length.line);
             
             if(!this.coordinate(randomColumn, randomRow)?.isBomb) {
-                this.board[randomColumn][randomRow] = new Case(this.BOMB);
+                this.board[randomColumn][randomRow] = new Case(this.BOMB, this.oneFileCoordinate(randomColumn, randomRow));
                 this.raiseNumberAroundBomb(randomColumn, randomRow);
             } else {
                 i--;
@@ -45,18 +51,14 @@ export class Demineur {
 
     createBoard() {
         this.board = Array.from({length: this.length.column}, 
-            () => Array.from({length: this.length.line}, 
-            () => new Case(0)));
+            (x, indexColumn) => Array.from({length: this.length.line}, 
+            (y, indexLine) => new Case(0, this.oneFileCoordinate(indexColumn, indexLine))));
         this.dissiminateBomb();
         return this;
     }
 
     reset() {
         return new Demineur(this.length.line, this.length.column, this.numberOfBomb);
-    }
-
-    oneFileCoordinate(column, line){
-        return column * this.length.line + line;
     }
 
     twoFileCoordinate(id){
@@ -67,52 +69,80 @@ export class Demineur {
     }
 
     endGame(){
+        const cellArray = [];
         this.board.forEach(column => {
             column.forEach(cell => {
                 if(cell.isBomb){
                     cell.reveal();
+                    cellArray.push(cell);
                 }
             })
         })
+        return cellArray;
     }
 
-    isGameOver(column, line){
-        const cell = this.coordinate(column, line);
-        
-        return cell.revealed && cell.isBomb;
+    isGameOver(cell){
+        if(cell === undefined) return false;
+
+        const bool = cell.revealed && cell.isBomb;
+        if(bool === true) this.gameFinished = true;
+
+        return bool;
     }
 
     isVictory(){
-        return this.bombFound === this.numberOfBomb;
+        const bool = this.caseRevealed === (this.length.column * this.length.line - this.numberOfBomb);
+        if(bool === true) this.gameFinished = true;
+
+        //console.log("hello : ", this.caseRevealed)
+
+        return bool;
     }
 
     flagACell(column, line){
+        if(this.gameFinished === true) return;
         const cell = this.coordinate(column, line);
         const bool = cell.changeFlag();
 
         (bool && cell.isBomb) ? this.bombFound++ : this.bombFound--;
 
-        return this.isVictory();
+        return cell;
     }
 
-    revealCell(x, y, demineur) {
-        if (demineur.gameOver || x < 0 || x >= demineur.length.line || y < 0 || y >= demineur.length.column || demineur.coordinate(y, x).isRevealed) {
-            return;
+    revealCellRecursion(column, line, cellMap){
+        const cell = this.coordinate(column, line);
+
+        if(cell === undefined /*|| cell.revealed === true*/) return cellMap;
+        
+        cellMap.set(cell.id, cell);
+
+        cell.reveal();
+        this.caseRevealed++;
+
+        if(cell.number === 0){
+        for(let i = column - 1; i <= column + 1; i++){
+                for(let j = line - 1; j <= line + 1; j++){
+                    const newCell = this.coordinate(i, j);
+                    if(newCell === undefined || newCell.id === cell.id || cellMap.has(newCell.id)) continue;
+                    cellMap.set(newCell.id, newCell)
+                    newCell.reveal();
+                    this.caseRevealed++;
+                    cellMap = this.revealCellRecursion(i, j, cellMap)
+                }
+            }
         }
 
-        demineur.reveal() //todo
+        // console.log(cellMap);
 
-        if(demineur.coordinate(y, x) === demineur.BOMB) {
-            demineur.gameOver = true;
-            alert('Game Over!');
-        } else if(demineur.coordinate(y, x) === 0) {
-            for (let dx = -1; dx <= 1; dx++) {
-                for (let dy = -1; dy <= 1; dy++) {
-                    revealCell(x + dx, y + dy, demineur);
-}
-}
-}
-}
+        return cellMap;
+    }
+
+    startRevealCell(column, line){
+        if(this.gameFinished === true) return [];
+        const cellMap = this.revealCellRecursion(column, line, new Map())
+        const cellArray = [...cellMap.values()]
+        return cellArray;
+    }
 
     getBoardAsString(){
         console.log(this.board);
