@@ -34,11 +34,20 @@ let generatGrid = (demineurInstance) => {
             if (cellValue) {
                 cellElement.innerText = cellValue;
             }
+            
+            cellElement.addEventListener('click', () => handleCellClick(i, j));//Added
+
             console.log(cellValue)
             gridContainer.appendChild(cellElement);
         }
     }
 
+}
+
+//Added
+const handleCellClick = (x, y) => {
+    demineurInstance.revealCell(x, y);
+    generateGrid(demineurInstance);
 }
 
 generatGrid(demineurInstance);
