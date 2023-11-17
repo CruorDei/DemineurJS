@@ -190,6 +190,8 @@ function removePopup() {
 }
 
 document.querySelector('button.restart').addEventListener('click', () => {
+    bombs = url.searchParams.get("bombs");
+    countbombs.innerText = bombs;
     const demineurInstance = new Demineur(+columns, +rows, +bombs)
     gridContainer.innerHTML = "";
     clearInterval(timer.intervalRef);
