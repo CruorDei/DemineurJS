@@ -1,0 +1,38 @@
+label{
+    color: white;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    width: 720px;
+    padding: 30px;
+    background-color: var(--bg-nav-color);
+}
+
+form>*{
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    border: solid 0px;
+}
+
+input{
+    padding: 10px;
+    font-size: 24px;
+    text-align: center;
+    background-color: var(--bg-cells-color);
+    color: white;
+}
+
+button {
+    padding: 10px;
+    margin-top: 30px;
+    background-color: var(--bg-cells-color);
+    color: white;
+}
+
+input:hover, button:hover{
+    background-color: var(--bg-light-color);
+    cursor: pointer;
+}

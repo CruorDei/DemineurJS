@@ -1,16 +1,33 @@
-:root {
-    --primary-color : #8C331F;
-    --bg-cells-color : #D96523;
-    --bg-nav-color : #59261B;
-    --bg-light-color : #F2AF5C;
-    --bg-dark-color : #0D0D0D;
-    --txt : white;
+@import url(./root.css);
+@import url(./form.css);
+@import url(./demineur.css);
+@font-face {
+  font-family: "Roboto";
+  src: url("/fonts/Roboto/Roboto-Regular.ttf") format("truetype"),
+    url("fonts/Roboto/Roboto-ThinItalic.ttf") format("truetype"),
+    url("fonts/Roboto/Roboto-Thin.ttf") format("truetype"),
+    url("fonts/Roboto/Roboto-MediumItalic.ttf") format("truetype"),
+    url("fonts/Roboto/Roboto-Medium.ttf") format("truetype"),
+    url("fonts/Roboto/Roboto-LightItalic.ttf") format("truetype"),
+    url("fonts/Roboto/Roboto-Light.ttf") format("truetype"),
+    url("fonts/Roboto/Roboto-Italic.ttf") format("truetype"),
+    url("fonts/Roboto/Roboto-BoldItalic.ttf") format("truetype"),
+    url("fonts/Roboto/Roboto-Bold.ttf") format("truetype"),
+    url("fonts/Roboto/Roboto-BlackItalic.ttf") format("truetype"),
+    url("fonts/Roboto/Roboto-Black.ttf") format("truetype");
 }
 
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+    color: white;
+}
+
+.dnone{
+  display: none;
 }
 
 body{
@@ -22,8 +39,29 @@ nav.nav{
     color: var(--txt);
     height: 100px;
     width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+
+}
+
+.text{
+  display: flex;
+  flex-direction: row;
+}
+
+.text>p{
+  padding: 15px;
 }
 
 .container{
     width: 100vw;
+    height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+/*****************************************************************************/
