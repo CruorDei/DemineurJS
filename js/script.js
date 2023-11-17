@@ -25,7 +25,19 @@ if (countbombs){
 
 const demineurInstance = new Demineur(+columns, +rows, +bombs);
 
+function clearTimer() {
+    if(timer.intervalRef === null) return;
+    
+    clearInterval(timer.intervalRef);
+    
+    timer.intervalRef = null;
+}
+
 function startTimer() {
+    clearTimer()
+    timer.startTime = new Date();
+    timer.elapsedTime = 0;
+
     const updateTimer = () => {
         const currentTime = new Date();
         timer.elapsedTime = Math.floor((currentTime - timer.startTime) / 1000);
@@ -42,6 +54,7 @@ function startTimer() {
 
 function createPopupLink(text) {
     let popupLink = document.createElement('a');
+    popupLink.classList.add('popup')
     popupLink.textContent = text;
     popupLink.style.position = "absolute";
     popupLink.style.width = "100vw";
@@ -75,10 +88,10 @@ function createPopupLink(text) {
 
     return popupLink;
 }
+let gridContainer = document.querySelector("#demineurGrid");
 
 
 let generateGrid = (demineurInstance) => {
-    let gridContainer = document.querySelector("#demineurGrid");
 
     // gridContainer.innerHTML = "";
     gridContainer.classList.add('grid');
@@ -111,7 +124,8 @@ let generateGrid = (demineurInstance) => {
                     cellSelected = document.getElementById(e.id);
                     if(e.number === 9){
                         demineurInstance.isGameOver(e)
-                        clearInterval(timer.intervalRef);
+                        //clearInterval(timer.intervalRef);
+                        clearTimer()
                         demineurInstance.endGame().forEach(b => {
                             document.getElementById(b.id).style.backgroundColor = "var(--loose)";
                             //.style.backgroundColor = `var(--loose)`
@@ -130,7 +144,8 @@ let generateGrid = (demineurInstance) => {
                     //clearInterval(timer.intervalRef); after victory
                     
                     if(demineurInstance.isVictory(e)){
-                        clearInterval(timer.intervalRef);
+                        //clearInterval(timer.intervalRef);
+                        clearTimer()
                         let container = document.querySelector(".container");
                         let victoryPopup = createPopupLink("Victory!");
                         container.appendChild(victoryPopup);
@@ -167,14 +182,21 @@ let generateGrid = (demineurInstance) => {
             gridContainer.appendChild(cellElement);
         }
     }
-
 }
 
-//Added
-// const handleCellClick = (x, y) => {
-//     demineurInstance.revealCell(x, y);
-//     generateGrid(demineurInstance);
-// }
+function removePopup() {
+    let popups = document.querySelectorAll('.popup');
+    popups.forEach(popup => popup.remove());
+}
+
+document.querySelector('button.restart').addEventListener('click', () => {
+    const demineurInstance = new Demineur(+columns, +rows, +bombs)
+    gridContainer.innerHTML = "";
+    clearInterval(timer.intervalRef);
+    removePopup();
+    generateGrid(demineurInstance);
+    startTimer();
+});
 
 
 window.addEventListener("load", () => {

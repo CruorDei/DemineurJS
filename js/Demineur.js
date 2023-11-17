@@ -57,10 +57,6 @@ export class Demineur {
         return this;
     }
 
-    reset() {
-        return new Demineur(this.length.line, this.length.column, this.numberOfBomb);
-    }
-
     twoFileCoordinate(id){
         return [
             Math.floor(id/this.length.line),
