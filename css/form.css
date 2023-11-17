@@ -27,9 +27,10 @@ input{
 
 button {
     padding: 10px;
-    margin-top: 30px;
     background-color: var(--bg-cells-color);
     color: white;
+    border-radius: 20px;
+    border: none;
 }
 
 input:hover, button:hover{

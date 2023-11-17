@@ -23,22 +23,59 @@ if (countbombs){
 // console.log("plop Columns:", columns);
 // console.log("plop Bombs:", bombs);
 
-const demineurInstance = new Demineur(+rows, +columns, +bombs);
+const demineurInstance = new Demineur(+columns, +rows, +bombs);
 
 function startTimer() {
     const updateTimer = () => {
         const currentTime = new Date();
-        timer.elapsedTime = Math.floor((currentTime - timer.startTime) / 1000); // calculate elapsed time in seconds
+        timer.elapsedTime = Math.floor((currentTime - timer.startTime) / 1000);
         let htmlTimer = document.querySelector('.timer');
         if(htmlTimer) {
-            htmlTimer.innerText = 999 - timer.elapsedTime;
+            htmlTimer.innerText = timer.elapsedTime;
         }
     };
+
+    updateTimer();
     
-    timer.intervalRef = setInterval(updateTimer, 1000); // update timer every second
+    timer.intervalRef = setInterval(updateTimer, 1000);
 }
 
-// console.log(demineurInstance.getBoardAsString());
+function createPopupLink(text) {
+    let popupLink = document.createElement('a');
+    popupLink.textContent = text;
+    popupLink.style.position = "absolute";
+    popupLink.style.width = "100vw";
+    popupLink.style.textAlign = "center";
+    popupLink.style.top = "20%";
+    popupLink.style.left = "50%";
+    popupLink.style.transform = "translate(-50%, -50%)";
+    popupLink.style.fontSize = "6em";
+    popupLink.style.textDecoration = "none";
+    popupLink.style.backgroundColor = "#00000010";
+    popupLink.href = "index.html";
+
+    // Ajoutez un style différent au survol pour tous les liens
+    popupLink.style.transition = "color 0.3s ease-in-out"; // Ajoute une transition pour une animation plus fluide
+    popupLink.addEventListener("mouseover", () => {
+        popupLink.style.color = `var(--txt)`; // Couleur différente au survol
+    });
+    popupLink.addEventListener("mouseout", () => {
+        // Rétablissez la couleur initiale lorsque la souris quitte l'élément
+        if (text.toLowerCase() === "game over") {
+            popupLink.style.color = "#ff0000";
+        } else {
+            popupLink.style.color = ""; // Utilisez la couleur par défaut du texte
+        }
+    });
+
+    // Appliquez la couleur rouge uniquement si le texte est "Game Over"
+    if (text.toLowerCase() === "game over") {
+        popupLink.style.color = "#ff0000";
+    }
+
+    return popupLink;
+}
+
 
 let generateGrid = (demineurInstance) => {
     let gridContainer = document.querySelector("#demineurGrid");
@@ -74,9 +111,14 @@ let generateGrid = (demineurInstance) => {
                     cellSelected = document.getElementById(e.id);
                     if(e.number === 9){
                         demineurInstance.isGameOver(e)
+                        clearInterval(timer.intervalRef);
                         demineurInstance.endGame().forEach(b => {
                             document.getElementById(b.id).style.backgroundColor = "var(--loose)";
                             //.style.backgroundColor = `var(--loose)`
+                            let container = document.querySelector(".container");
+                            let gameOverPopup = createPopupLink("Game Over");
+                            container.appendChild(gameOverPopup);
+                            
                         })
 
                     }
@@ -87,7 +129,13 @@ let generateGrid = (demineurInstance) => {
 
                     //clearInterval(timer.intervalRef); after victory
                     
-                    console.log(demineurInstance.isVictory())
+                    if(demineurInstance.isVictory(e)){
+                        clearInterval(timer.intervalRef);
+                        let container = document.querySelector(".container");
+                        let victoryPopup = createPopupLink("Victory!");
+                        container.appendChild(victoryPopup);
+                    }
+
                 });
 
             });

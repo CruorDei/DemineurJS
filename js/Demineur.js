@@ -5,14 +5,14 @@ export class Demineur {
 
     constructor(line, column, numberOfBomb) {
         this.length = {
-            line: line,
-            column: column
+            line: (line < 80 ? line : 80),
+            column: (column < 80 ? column : 80)
         };
-        this.numberOfBomb = numberOfBomb;
-        this.bombFound = 0;
+        this.numberOfBomb = (numberOfBomb < (line * column) ? numberOfBomb : line * column);
         this.caseRevealed = 0;
         this.gameFinished = false;
         this.createBoard();
+        console.log(this.getBoardAsString())
     }
 
     coordinate(column, line){
@@ -90,21 +90,17 @@ export class Demineur {
         return bool;
     }
 
-    isVictory(){
+    isVictory(cell){
         const bool = this.caseRevealed === (this.length.column * this.length.line - this.numberOfBomb);
         if(bool === true) this.gameFinished = true;
 
-        //console.log("hello : ", this.caseRevealed)
-
-        return bool;
+        return bool && !cell.isBomb ;
     }
 
     flagACell(column, line){
         if(this.gameFinished === true) return;
         const cell = this.coordinate(column, line);
-        const bool = cell.changeFlag();
-
-        (bool && cell.isBomb) ? this.bombFound++ : this.bombFound--;
+        cell.changeFlag();
 
         return cell;
     }
@@ -112,7 +108,7 @@ export class Demineur {
     revealCellRecursion(column, line, cellMap){
         const cell = this.coordinate(column, line);
 
-        if(cell === undefined /*|| cell.revealed === true*/) return cellMap;
+        if(cell === undefined || cell.revealed === true) return cellMap;
         
         cellMap.set(cell.id, cell);
 
@@ -124,15 +120,10 @@ export class Demineur {
                 for(let j = line - 1; j <= line + 1; j++){
                     const newCell = this.coordinate(i, j);
                     if(newCell === undefined || newCell.id === cell.id || cellMap.has(newCell.id)) continue;
-                    cellMap.set(newCell.id, newCell)
-                    newCell.reveal();
-                    this.caseRevealed++;
                     cellMap = this.revealCellRecursion(i, j, cellMap)
                 }
             }
         }
-
-        // console.log(cellMap);
 
         return cellMap;
     }

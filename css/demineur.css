@@ -1,6 +1,8 @@
 .grid {
     display: grid;
     background-color: var(--bg-light-color);
+    max-width: 100vw;
+    max-height: calc(100vh - 100px);
   }
   
   .cell {

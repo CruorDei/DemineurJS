@@ -64,4 +64,10 @@ nav.nav{
     align-items: center;
 }
 
+button.restart{
+  padding: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  text-transform: uppercase;
+}
 /*****************************************************************************/

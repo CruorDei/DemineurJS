@@ -26,6 +26,6 @@ export class Case {
     }
 
     toString(){
-        return this.revealed ? this.number : this.flag ? "🚩" : "";
+        return this.number;
     }
 }
